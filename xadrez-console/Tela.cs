@@ -12,7 +12,7 @@ namespace xadrez_console
                 for (int j = 0; j < tab.Colunas; j++)
                 {
                     Peca peca = tab.PegaPeca(i, j);
-                    string p = peca == null ? "- " : $"{peca}";
+                    string p = peca == null ? "- " : $"{peca} ";
                     Console.Write(p);
                 }
                 Console.WriteLine();
