@@ -7,9 +7,9 @@ namespace xadrez_console
     {
         static void Main(string[] args)
         {
-            Posicao p = new Posicao(3, 6);
+            Tabuleiro tab = new Tabuleiro(8, 8);
 
-            Console.WriteLine($"Posicao: {p}");
+            Console.ReadLine();
         }
     }
 }
