@@ -31,7 +31,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1);
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna - 1);
             }
 
             //nordeste
@@ -43,7 +43,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna + 1);
             }
 
             //sudeste
@@ -55,7 +55,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna + 1);
             }
 
             //sudoeste
@@ -67,7 +67,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1);
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna - 1);
             }
 
             return mat;

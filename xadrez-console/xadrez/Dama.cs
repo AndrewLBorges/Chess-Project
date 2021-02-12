@@ -27,7 +27,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.Linha -= 1;
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna);
             }
 
             //abaixo
@@ -39,7 +39,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.Linha += 1;
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna);
             }
 
             //direita
@@ -51,7 +51,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.Coluna += 1;
+                pos.DefinirValores(pos.Linha, pos.Coluna + 1);
             }
 
             //esquerda
@@ -63,7 +63,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.Coluna -= 1;
+                pos.DefinirValores(pos.Linha, pos.Coluna - 1);
             }
 
             //noroeste
@@ -75,7 +75,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1);
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna - 1);
             }
 
             //nordeste
@@ -87,7 +87,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1);
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna + 1);
             }
 
             //sudeste
@@ -99,7 +99,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1);
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna + 1);
             }
 
             //sudoeste
@@ -111,7 +111,7 @@ namespace xadrez
                 {
                     break;
                 }
-                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1);
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna - 1);
             }
 
             return mat;
