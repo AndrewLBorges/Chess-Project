@@ -16,11 +16,20 @@ namespace xadrez_console
 
             Console.WriteLine();
             Console.WriteLine($"Turno: {partida.Turno}");
-            Console.WriteLine($"Aguardando jogada: {partida.JogadorAtual}");
 
-            if(partida.Check)
+            if (!partida.Terminada)
             {
-                Console.WriteLine("CHECK!");
+                Console.WriteLine($"Aguardando jogada: {partida.JogadorAtual}");
+
+                if (partida.Check)
+                {
+                    Console.WriteLine("CHECK!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine($"Vencedor: {partida.JogadorAtual}");
             }
         }
 
@@ -45,13 +54,13 @@ namespace xadrez_console
         public static void ImprimirConjunto(HashSet<Peca> conjunto)
         {
             Console.Write("[");
-            foreach(Peca p in conjunto)
+            foreach (Peca p in conjunto)
             {
                 Console.Write($"{p} ");
             }
             Console.Write("]");
         }
-        
+
         public static void ImprimirTabuleiro(Tabuleiro tab)
         {
             for (int i = 0; i < tab.Linhas; i++)
@@ -73,13 +82,13 @@ namespace xadrez_console
             ConsoleColor fundoOriginal = Console.BackgroundColor;
 
             ConsoleColor fundoAlterado = ConsoleColor.DarkGray;
-            
+
             for (int i = 0; i < tab.Linhas; i++)
             {
                 Console.Write($"{8 - i} ");
                 for (int j = 0; j < tab.Colunas; j++)
                 {
-                    if(posicoesPossiveis[i, j])
+                    if (posicoesPossiveis[i, j])
                     {
                         Console.BackgroundColor = fundoAlterado;
                     }
