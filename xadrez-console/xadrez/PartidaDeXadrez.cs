@@ -1,5 +1,7 @@
 ﻿using tabuleiro;
 using System.Collections.Generic;
+using System;
+
 namespace xadrez
 {
     class PartidaDeXadrez
@@ -58,12 +60,12 @@ namespace xadrez
             }
 
             // #jogadaespecial En Passant
-            if(p is Peao)
+            if (p is Peao)
             {
-                if(origem.Coluna != destino.Coluna && pecaCapturada == null)
+                if (origem.Coluna != destino.Coluna && pecaCapturada == null)
                 {
                     Posicao posP;
-                    if(p.Cor == Cor.Branca)
+                    if (p.Cor == Cor.Branca)
                     {
                         posP = new Posicao(destino.Linha + 1, destino.Coluna);
                     }
@@ -112,14 +114,14 @@ namespace xadrez
             }
 
             // #jogadaespecial En Pessant
-            if(p is Peao)
+            if (p is Peao)
             {
-                if(origem.Coluna != destino.Coluna && pecaCapturada == VulneravelEnPassant)
+                if (origem.Coluna != destino.Coluna && pecaCapturada == VulneravelEnPassant)
                 {
                     Peca peao = Tabuleiro.RetirarPeca(destino);
                     Posicao posPeao;
 
-                    if(p.Cor == Cor.Branca)
+                    if (p.Cor == Cor.Branca)
                     {
                         posPeao = new Posicao(3, destino.Coluna);
                     }
@@ -145,15 +147,18 @@ namespace xadrez
             Peca p = Tabuleiro.PegaPeca(destino);
 
             // #jogadaespecial promocao
-            if(p is Peao)
+            if (p is Peao)
             {
-                if((p.Cor == Cor.Branca && destino.Linha == 0) || (p.Cor == Cor.Preta && destino.Linha == 7))
+                if ((p.Cor == Cor.Branca && destino.Linha == 0) || (p.Cor == Cor.Preta && destino.Linha == 7))
                 {
                     p = Tabuleiro.RetirarPeca(destino);
                     _pecas.Remove(p);
-                    Peca dama = new Dama(Tabuleiro, p.Cor);
-                    Tabuleiro.ColocarPeca(dama, destino);
-                    _pecas.Add(dama);
+                    Peca promo = EscolhePromo(Tabuleiro, p.Cor);
+                    if (promo != null)
+                    {
+                        Tabuleiro.ColocarPeca(promo, destino);
+                        _pecas.Add(promo);
+                    }
                 }
             }
 
@@ -176,7 +181,7 @@ namespace xadrez
             }
 
             // #jogadaespecial En Passant
-            if(p is Peao && (destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2))
+            if (p is Peao && (destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2))
             {
                 VulneravelEnPassant = p;
             }
@@ -185,7 +190,6 @@ namespace xadrez
                 VulneravelEnPassant = null;
             }
         }
-
         public void ValidarPosicaoDeOrigem(Posicao pos)
         {
             Peca p = Tabuleiro.PegaPeca(pos);
@@ -253,6 +257,83 @@ namespace xadrez
 
             aux.ExceptWith(PecasCapturadas(cor));
             return aux;
+        }
+
+        private Peca EscolhePromo(Tabuleiro tabuleiro, Cor cor)
+        {
+            char resp = ' ';
+            int aux = 0;
+            while (aux == 0)
+            {
+                System.Console.Write("Escolha sua promoção(D/B/T/C): ");
+                resp = char.Parse(Console.ReadLine());
+
+                if (resp == 'd' || resp == 'D')
+                {
+                    Peca p = new Dama(tabuleiro, cor);
+                    if (FoiCapturada(p))
+                    {
+                        return p;
+                    }
+                }
+                else if (resp == 't' || resp == 'T')
+                {
+                    Peca p = new Torre(tabuleiro, cor);
+                    if (FoiCapturada(p))
+                    {
+                        return p;
+                    }
+                }
+                else if (resp == 'b' || resp == 'B')
+                {
+                    Peca p = new Bispo(tabuleiro, cor);
+                    if (FoiCapturada(p))
+                    {
+                        return p;
+                    }
+                }
+                else if (resp == 'c' || resp == 'C')
+                {
+                    Peca p = new Cavalo(tabuleiro, cor);
+                    if (FoiCapturada(p))
+                    {
+                        return p;
+                    }
+                }
+
+                Console.WriteLine("Peça inexistente, tente novamente!");
+                Console.WriteLine();
+            }
+            return null;
+        }
+
+        private HashSet<Peca> PecasParaPromo(Cor cor)
+        {
+            HashSet<Peca> aux = new HashSet<Peca>();
+
+            foreach (Peca p in PecasCapturadas(Adversaria(cor)))
+            {
+                if (p is Dama || p is Torre || p is Bispo || p is Cavalo)
+                {
+                    aux.Add(p);
+                }
+            }
+
+            return aux;
+        }
+
+        private bool FoiCapturada(Peca peca)
+        {
+            HashSet<Peca> aux = PecasParaPromo(peca.Cor);
+
+            foreach (Peca p in aux)
+            {
+                if (p.GetType() == peca.GetType())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private Cor Adversaria(Cor cor)
